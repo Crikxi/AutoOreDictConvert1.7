@@ -23,8 +23,7 @@ public class Convert {
                         if (Config.conversions.containsKey(name)) { //do we have a conversion?
                             ItemStack templateStack = Config.conversions.get(name);
                             int stackSize = playerStack.stackSize;
-                            player.inventory.setInventorySlotContents(i,null);
-                            player.inventory.addItemStackToInventory(new ItemStack(templateStack.getItem(),stackSize,templateStack.getItemDamage()));
+                            player.inventory.setInventorySlotContents(i,new ItemStack(templateStack.getItem(),stackSize,templateStack.getItemDamage()));
                             player.inventory.markDirty();
                         }
                     }
