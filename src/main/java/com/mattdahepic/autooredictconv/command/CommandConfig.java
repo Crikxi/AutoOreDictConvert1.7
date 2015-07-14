@@ -24,6 +24,10 @@ public class CommandConfig extends CommandBase {
         this.tabCompletionOptions.add("help");
     }
     @Override
+    public int getRequiredPermissionLevel() {
+        return 2;
+    }
+    @Override
     public String getCommandName () {
         return "odc";
     }
