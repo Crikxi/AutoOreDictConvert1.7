@@ -13,6 +13,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.io.File;
 
@@ -40,6 +41,7 @@ public class AutoOreDictConv {
     public void serverStarting (FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandConfig());
         mcServer = event.getServer();
+        OreDictionary.rebakeMap(); //metallurgy bug fix
     }
     @SubscribeEvent
     public void onTick (TickEvent.ServerTickEvent event) {
