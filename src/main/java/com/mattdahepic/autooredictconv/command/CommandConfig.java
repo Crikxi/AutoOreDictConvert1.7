@@ -19,8 +19,9 @@ public class CommandConfig extends CommandBase {
         this.tabCompletionOptions.add("detect");
         this.tabCompletionOptions.add("dump");
         this.tabCompletionOptions.add("find");
-        this.tabCompletionOptions.add("help");
+        this.tabCompletionOptions.add("list");
         this.tabCompletionOptions.add("add");
+        this.tabCompletionOptions.add("help");
     }
     @Override
     public String getCommandName () {
@@ -53,7 +54,7 @@ public class CommandConfig extends CommandBase {
                     return;
                 }
             } else if (args[0].equalsIgnoreCase("dump")) {
-                DumpOreDict.dump(sender);
+                Dump.dump(sender);
                 return;
             } else if (args[0].equalsIgnoreCase("find")) {
                 if (args.length < 2) {
@@ -64,17 +65,20 @@ public class CommandConfig extends CommandBase {
                 return;
             } else if (args[0].equalsIgnoreCase("add")) {
                 if (item != null) {
-                    Add.add(sender,item);
+                    Add.add(sender, item);
                     return;
                 } else {
-                    sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED+"You\'re not holding an item!"));
+                    sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "You\'re not holding an item!"));
                     return;
                 }
+            } else if (args[0].equalsIgnoreCase("list")) {
+                ListEntries.list(sender);
             } else if (args[0].equalsIgnoreCase("help")) {
                 sender.addChatMessage(new ChatComponentText("To get the ore dictionary entries of the item currently held, use \"/odc detect\"."));
                 sender.addChatMessage(new ChatComponentText("To dump all ore dictionary entries to the chat and log, use \"/odc dump\"."));
                 sender.addChatMessage(new ChatComponentText("To find all items listed as the specified Ore Dictionary name, use \"/odc find <oreDictName>\"."));
                 sender.addChatMessage(new ChatComponentText("To add the currently held item as the default for it's ore dictionary entries, use \"/odc add\"."));
+                sender.addChatMessage(new ChatComponentText("To see all current configured items and their ore dictionary entries, use \"/odc list\"."));
                 return;
             }
         }
