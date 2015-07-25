@@ -33,19 +33,19 @@ public class Config {
         if (line.startsWith("//")) return;
         //oreDict=modid:itemName@metaValue
         String oreDict = line.substring(0,line.indexOf("="));
-        ItemStack stack;
+        String modid = line.substring(line.indexOf("=")+1,line.indexOf(":"));
+        String name;
         int meta;
-        //System.out.println("oreDict = "+oreDict);
         if (!line.contains("@")) { //no meta specified
-            stack = GameRegistry.makeItemStack(line.substring(line.indexOf("=")+1),0,1,null);
-            //System.out.println("name = "+line.substring(line.indexOf("=")+1));
-            //System.out.println("meta = 0");
+            name = line.substring(line.indexOf("=")+1);
+            meta = 0;
         } else {
-            stack = GameRegistry.makeItemStack(line.substring(line.indexOf("=")+1,line.indexOf("@")),Integer.parseInt(line.substring(line.indexOf("@")+1)),1,null);
-            //System.out.println("name = "+line.substring(line.indexOf(":")+1,line.indexOf("@")));
-            //System.out.println("meta = "+Integer.parseInt(line.substring(line.indexOf("@") + 1)));
+            name = line.substring(line.indexOf(":")+1,line.indexOf("@"));
+            meta = Integer.parseInt(line.substring(line.indexOf("@")+1));
         }
-        //System.out.println("------");
+        ItemStack stack = new ItemStack(GameRegistry.findItem(modid,name));
+        stack.setItemDamage(meta);
+        stack.stackSize = 1;
         add(oreDict, stack);
     }
     public static void add (String oreDict, ItemStack item) {
