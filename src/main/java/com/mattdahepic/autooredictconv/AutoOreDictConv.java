@@ -27,11 +27,12 @@ public class AutoOreDictConv {
     public static final String VERSION = "@VERSION@";
 
     public static MinecraftServer mcServer;
+    static File configFile;
 
     @Mod.EventHandler
     public void preInit (FMLPreInitializationEvent event) {
         FMLCommonHandler.instance().bus().register(instance);
-        Config.load(new File(event.getModConfigurationDirectory(),"autooredictconvert.cfg"));
+        configFile = new File(event.getModConfigurationDirectory(),"autooredictconvert.cfg");
     }
     @Mod.EventHandler
     public void init (FMLInitializationEvent event) {}
@@ -41,6 +42,7 @@ public class AutoOreDictConv {
     public void serverStarting (FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandConfig());
         mcServer = event.getServer();
+        Config.load(this.configFile);
         OreDictionary.rebakeMap(); //metallurgy bug fix
     }
     @SubscribeEvent

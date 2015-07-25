@@ -18,11 +18,11 @@ public class Config {
     public static void load (File config) {
         configFile = config;
         try {
-            if (!config.exists()) {
-                config.createNewFile();
-                addDefaults(config);
+            if (!configFile.exists()) {
+                configFile.createNewFile();
+                addDefaults(configFile);
             }
-            Scanner scn = new Scanner(config);
+            Scanner scn = new Scanner(configFile);
             while (scn.hasNextLine()) {
                 parse(scn.nextLine());
             }
@@ -30,23 +30,27 @@ public class Config {
         } catch (IOException e) {}
     }
     private static void parse (String line) {
-        if (line.startsWith("//")) return;
-        //oreDict=modid:itemName@metaValue
-        String oreDict = line.substring(0,line.indexOf("="));
-        String modid = line.substring(line.indexOf("=")+1,line.indexOf(":"));
-        String name;
-        int meta;
-        if (!line.contains("@")) { //no meta specified
-            name = line.substring(line.indexOf("=")+1);
-            meta = 0;
-        } else {
-            name = line.substring(line.indexOf(":")+1,line.indexOf("@"));
-            meta = Integer.parseInt(line.substring(line.indexOf("@")+1));
+        try {
+            if (line.startsWith("//")) return;
+            //oreDict=modid:itemName@metaValue
+            String oreDict = line.substring(0, line.indexOf("="));
+            String modid = line.substring(line.indexOf("=") + 1, line.indexOf(":"));
+            String name;
+            int meta;
+            if (!line.contains("@")) { //no meta specified
+                name = line.substring(line.indexOf("=") + 1);
+                meta = 0;
+            } else {
+                name = line.substring(line.indexOf(":") + 1, line.indexOf("@"));
+                meta = Integer.parseInt(line.substring(line.indexOf("@") + 1));
+            }
+            ItemStack stack = new ItemStack(GameRegistry.findItem(modid, name));
+            stack.setItemDamage(meta);
+            stack.stackSize = 1;
+            add(oreDict, stack);
+        } catch (Exception e) {
+            throw new RuntimeException("Error processing entry \""+line+"\"! Does the item exist?",e);
         }
-        ItemStack stack = new ItemStack(GameRegistry.findItem(modid,name));
-        stack.setItemDamage(meta);
-        stack.stackSize = 1;
-        add(oreDict, stack);
     }
     public static void add (String oreDict, ItemStack item) {
         if (conversions.containsKey(oreDict)) {
