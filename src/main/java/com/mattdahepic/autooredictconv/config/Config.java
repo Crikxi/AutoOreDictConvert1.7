@@ -1,5 +1,6 @@
 package com.mattdahepic.autooredictconv.config;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -32,17 +33,20 @@ public class Config {
         if (line.startsWith("//")) return;
         //oreDict=modid:itemName@metaValue
         String oreDict = line.substring(0,line.indexOf("="));
-        Item item;
+        ItemStack stack;
         int meta;
-        if (line.indexOf("@") < 0) { //no meta specified
-            item = (Item)Item.itemRegistry.getObject(line.indexOf("=")+1);
-            meta = 0;
+        //System.out.println("oreDict = "+oreDict);
+        if (!line.contains("@")) { //no meta specified
+            stack = GameRegistry.makeItemStack(line.substring(line.indexOf("=")+1),0,1,null);
+            //System.out.println("name = "+line.substring(line.indexOf("=")+1));
+            //System.out.println("meta = 0");
         } else {
-            item = (Item)Item.itemRegistry.getObject(line.substring(line.indexOf("=") + 1, line.indexOf("@")));
-            meta = Integer.parseInt(line.substring(line.indexOf("@")+1));
+            stack = GameRegistry.makeItemStack(line.substring(line.indexOf("=")+1,line.indexOf("@")),Integer.parseInt(line.substring(line.indexOf("@")+1)),1,null);
+            //System.out.println("name = "+line.substring(line.indexOf(":")+1,line.indexOf("@")));
+            //System.out.println("meta = "+Integer.parseInt(line.substring(line.indexOf("@") + 1)));
         }
-        ItemStack stack = new ItemStack(item,1,meta);
-        add(oreDict,stack);
+        //System.out.println("------");
+        add(oreDict, stack);
     }
     public static void add (String oreDict, ItemStack item) {
         if (conversions.containsKey(oreDict)) {
