@@ -16,7 +16,7 @@ public class TileConverter extends TileEntity implements ISidedInventory {
     public static final String NAME = "converter";
     public static final String INVENTORY_NAME = "Auto Converter";
     public static final int SIZE = 15;
-    private ItemStack[] contents = new ItemStack[SIZE];
+    public ItemStack[] contents = new ItemStack[SIZE];
     public TileConverter () {}
     @Override
     public int getSizeInventory() {
